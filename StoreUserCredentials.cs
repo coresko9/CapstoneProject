@@ -23,6 +23,7 @@ namespace LoginScreen0
 
             this._StoragePath = $"{_StorageString}/{_FileName}";
             MessageBox.Show($"Saving to: {_StoragePath}");
+            MessageBox.Show($"Saving to: {_StoragePath}");
         }
         public string UserName
         {
@@ -35,6 +36,7 @@ namespace LoginScreen0
                 _UserName = value;
             }
         }
+        //test
         public string Password
         {
             get
