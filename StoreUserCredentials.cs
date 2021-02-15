@@ -1,67 +1,65 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 
 namespace LoginScreen0
 {
-    class StoreUserCredentials
+    class StoreUserCredentials : StorageDirectory
     {
         private string _UserName;
         private string _Password;
 
-        //TODO - change the file path to something related to your 	
-
-        private string _StorageString = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString();
-        private string _StoragePath;
+        //private int _IDCount = 0;
         private string _FileName = "";
-        private static int _UserID = 0;
-        public StoreUserCredentials(string user)
-        {
-            this._FileName = $"{user}.txt";
+        private string _UserStoragePath;
 
-            this._StoragePath = $"{_StorageString}/{_FileName}";
-            MessageBox.Show($"Saving to: {_StoragePath}");
-            MessageBox.Show($"Saving to: {_StoragePath}");
+
+        public StoreUserCredentials()
+        {
+
         }
+        /* public int IDCount
+         {
+             get { return _IDCount; }
+             set
+             {
+                 _IDCount = Directory.GetFiles(_UserStoragePath, "*", SearchOption.TopDirectoryOnly).Length;
+             }
+         }*/
+
+
+
         public string UserName
         {
             get
             {
                 return _UserName;
             }
-            set
-            {
-                _UserName = value;
-            }
+
         }
-        //test
         public string Password
         {
-            get
-            {
-                return _Password;
-            }
             set
             {
                 _Password = value;
             }
         }
-        public string StoragePath
+        public string UserStoragePath
         {
             get
             {
-                return _StoragePath;
+                return _UserStoragePath;
             }
+
         }
-        public string CreateMD5()
+        public string CreateSHA512()
         {
             string toBeHash = _UserName + _Password;
-            using (MD5 md5 = MD5.Create())
+            using (SHA512 sHA512 = SHA512.Create())
             {
                 byte[] inputBytes = Encoding.ASCII.GetBytes(toBeHash);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                byte[] hashBytes = sHA512.ComputeHash(inputBytes);
 
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
@@ -71,22 +69,32 @@ namespace LoginScreen0
                 return sb.ToString();
             }
         }
-
-        public void Store()
+        public void Store(string userName)
         {
-            if (!File.Exists(_StoragePath))
+            this._UserName = userName;
+            this._FileName = @$"\{_UserName}.txt";
+            this._UserStoragePath = $"{StorageDirectory._StorageString}{_FileName}";
+
+            if (File.Exists(_UserStoragePath))
             {
-                string hash = CreateMD5();
-                _UserID++;
-                string id = $"User {_UserID} : ";
-                StreamWriter registUser = new StreamWriter(_StoragePath, true);
-                registUser.WriteLine($"{id}{hash}");
+                MessageBox.Show("User name already taken...");
+            }
+            else
+            {
+                MessageBox.Show($"Saving to: {this._UserStoragePath}");
+                string hash = CreateSHA512();
+                StreamWriter registUser = new StreamWriter(this._UserStoragePath);
+                registUser.WriteLine($"{hash}");
                 MessageBox.Show("Registered!");
 
                 registUser.Close();
-
-
             }
+
+
+
+
+
+
 
 
         }

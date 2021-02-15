@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
+using System.Security.Cryptography;
 using System.Text;
-using System.IO;
 using System.Windows;
 
 namespace LoginScreen0
@@ -13,18 +12,35 @@ namespace LoginScreen0
         {
             _CheckPath = path;
         }
-        public void Login(string usPw)
+        public bool isLogin(string usPw)
         {
+            usPw = CreateSHA512(usPw);
             string textInfo = File.ReadAllText(_CheckPath);
             if (textInfo.Contains(usPw))
             {
                 MessageBox.Show("Login Successful");
+                return true;
             }
-            else
+
+            return false;
+
+        }
+        public string CreateSHA512(string usPw)
+        {
+            using (SHA512 sHA512 = SHA512.Create())
             {
-                MessageBox.Show("you need to register for an account first");
+                byte[] inputBytes = Encoding.ASCII.GetBytes(usPw);
+                byte[] hashBytes = sHA512.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+
+                return sb.ToString();
             }
         }
+
     }
 }
-

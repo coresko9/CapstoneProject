@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using System.IO;
+
 
 namespace LoginScreen0
 {
     public partial class MainWindow : Window
     {
-        StoreUserCredentials user1 = new StoreUserCredentials("user1");
+        StorageDirectory defaultDirectory = new StorageDirectory();
+        StoreUserCredentials newUser = new StoreUserCredentials();
+
         public MainWindow()
-        {
-            InitializeComponent();
+        {       
+            InitializeComponent();  
+            if (!Directory.Exists(defaultDirectory.StorageString))
+            {
+                StorageDirectory.CreateDirectory();
+            }
         }
         private void Btn_Register_Click(object sender, RoutedEventArgs e)
         {
-            user1.UserName = BoxUser_Name.Text;
-            user1.Password = BoxPassword.Text;
-            user1.Store();
-
+            newUser.Password = BoxPassword.Text;
+            newUser.Store(BoxUser_Name.Text);
             BoxPassword.Clear();
             BoxUser_Name.Clear();
         }
@@ -36,29 +28,28 @@ namespace LoginScreen0
 
         private void Btn_Login_Click(object sender, RoutedEventArgs e)
         {
-            LoginVerification lv = new LoginVerification(user1.StoragePath);
-            string usPw = BoxUser_Name.Text + BoxPassword.Text;
-            usPw = CreateMD5(usPw);
-            lv.Login(usPw);
-
-        }
-        public string CreateMD5(string usPw)
-        {
-            using (MD5 md5 = MD5.Create())
+            string checkPath = @$"{defaultDirectory.StorageString}\{BoxUser_Name.Text}.txt";
+            if (File.Exists(checkPath))
             {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(usPw);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
+                LoginVerification lv = new LoginVerification(checkPath);
+                string usPw = BoxUser_Name.Text + BoxPassword.Text;
+                if (lv.isLogin(usPw))
                 {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
 
-                return sb.ToString();
+                    PasswordsScreen ps = new PasswordsScreen(checkPath,BoxUser_Name.Text,BoxPassword.Text);
+                    ps.Show();
+                    Close();
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect User Credentials\n Note:\tCase Sensitive");
+                }
+            }
+            else
+            {
+                MessageBox.Show($"User name {BoxUser_Name.Text} not found.\n Note:\tCase Sensitive ");
             }
         }
-
-       
     }
 }
