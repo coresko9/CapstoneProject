@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="581-5819939_transparent-padlock-clipart-png-red-lock-cartoon-png.png" />
+    <None Remove="background-textures.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="background-textures.png" />
+    <Resource Include="cybersecurity-password-pic %282%29.png" />
     <Resource Include="581-5819939_transparent-padlock-clipart-png-red-lock-cartoon-png.png" />
   </ItemGroup>
 

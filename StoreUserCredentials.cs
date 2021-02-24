@@ -9,8 +9,6 @@ namespace LoginScreen0
     {
         private string _UserName;
         private string _Password;
-
-        //private int _IDCount = 0;
         private string _FileName = "";
         private string _UserStoragePath;
 
@@ -18,25 +16,13 @@ namespace LoginScreen0
         public StoreUserCredentials()
         {
 
-        }
-        /* public int IDCount
-         {
-             get { return _IDCount; }
-             set
-             {
-                 _IDCount = Directory.GetFiles(_UserStoragePath, "*", SearchOption.TopDirectoryOnly).Length;
-             }
-         }*/
-
-
-
+        }       
         public string UserName
         {
             get
             {
                 return _UserName;
             }
-
         }
         public string Password
         {
@@ -89,16 +75,7 @@ namespace LoginScreen0
 
                 registUser.Close();
             }
-
-
-
-
-
-
-
-
         }
-
     }
 }
 
