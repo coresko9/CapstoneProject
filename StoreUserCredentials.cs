@@ -12,25 +12,10 @@ namespace LoginScreen0
         private string _FileName = "";
         private string _UserStoragePath;
 
-
         public StoreUserCredentials()
         {
 
         }       
-        public string UserName
-        {
-            get
-            {
-                return _UserName;
-            }
-        }
-        public string Password
-        {
-            set
-            {
-                _Password = value;
-            }
-        }
         public string UserStoragePath
         {
             get
@@ -55,26 +40,33 @@ namespace LoginScreen0
                 return sb.ToString();
             }
         }
-        public void Store(string userName)
+
+        public void Store(string userName,string passWord)
         {
-            this._UserName = userName;
-            this._FileName = @$"\{_UserName}.txt";
-            this._UserStoragePath = $"{StorageDirectory._StorageString}{_FileName}";
-
-            if (File.Exists(_UserStoragePath))
+            if (!string.IsNullOrWhiteSpace(userName) || !string.IsNullOrWhiteSpace(passWord))
             {
-                MessageBox.Show("User name already taken...");
-            }
-            else
-            {
-                MessageBox.Show($"Saving to: {this._UserStoragePath}");
-                string hash = CreateSHA512();
-                StreamWriter registUser = new StreamWriter(this._UserStoragePath);
-                registUser.WriteLine($"{hash}");
-                MessageBox.Show("Registered!");
+                this._UserName = userName;
+                this._Password = passWord;
+                this._FileName = @$"\{_UserName}.txt";
+                this._UserStoragePath = $"{StorageDirectory._StorageString}{_FileName}";
 
-                registUser.Close();
+                if (File.Exists(_UserStoragePath))
+                {
+                    MessageBox.Show("User name already taken...");
+                }
+                else
+                {
+                    MessageBox.Show($"Saving to: {this._UserStoragePath}");
+                    string hash = CreateSHA512();
+                    StreamWriter registUser = new StreamWriter(this._UserStoragePath);
+                    registUser.WriteLine($"{hash}");
+                    MessageBox.Show("Registered!");
+
+                    registUser.Close();
+
+                }
             }
+            else { MessageBox.Show("No Fields Can Be Empty"); }
         }
     }
 }

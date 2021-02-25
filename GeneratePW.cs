@@ -8,7 +8,7 @@ namespace LoginScreen0
         private bool _IncludeCaps;
         private bool _IncludeSymbs;
         private bool _IncludeNums;
-        private string _Passwordalphabet = "abcdefghijklmnopqrstuvwxyz";
+        private static string _Passwordalphabet = "abcdefghijklmnopqrstuvwxyz";
         private static string _alpha_UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static string _alpha_Symbols = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
         private static string _alpha_Numerics = "1234567890";
@@ -43,29 +43,68 @@ namespace LoginScreen0
             set
                 { _IncludeNums = value; }                       
         }
-        public string Password
+
+        public int Strength()
         {
-            get 
-                { return GenPassword(); }
-            
+            int strength = 10;
+            strength *= (_Length / 4);
+            if (_IncludeCaps) strength *= 3;
+            if (_IncludeNums) strength *= 2;
+            if (_IncludeSymbs) strength *= 3;
+
+            if (strength > 100)
+            {
+                 return strength = 100;
+            }
+            else
+            {
+                return strength;
+            }
         }
         public string GenPassword()
         {
+            string dynamicAlphabet;
             char[] password = new char[_Length];
             Random random = new Random();
-
-            this._Passwordalphabet = (_IncludeCaps) ? $@"{_Passwordalphabet}{_alpha_UpperCase}" : _Passwordalphabet;
-            this._Passwordalphabet = (_IncludeSymbs) ? $@"{_Passwordalphabet}{_alpha_Symbols}" : _Passwordalphabet;
-            this._Passwordalphabet = (_IncludeNums) ? $@"{_Passwordalphabet}{_alpha_Numerics}" : _Passwordalphabet;
+            if (_IncludeCaps && _IncludeSymbs && _IncludeNums)
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}{_alpha_UpperCase}{_alpha_Numerics}";
+            }
+            else if (_IncludeCaps && _IncludeSymbs )
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}{_alpha_UpperCase}";
+            }
+            else if (_IncludeSymbs && _IncludeNums)
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}{_alpha_Numerics}";
+            }
+            else if (_IncludeCaps && _IncludeNums)
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_UpperCase}{_alpha_Numerics}";
+            }
+            else if (_IncludeNums)
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Numerics}";
+            }
+            else if (_IncludeCaps )
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_UpperCase}";
+            }
+            else if (_IncludeSymbs )
+            {
+                dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}";
+            }
+            else
+            {
+                dynamicAlphabet = _Passwordalphabet;
+            }
+           
             for (int i = 0; i < this._Length; i++)
             {
-                password[i] = _Passwordalphabet[random.Next(0, _Passwordalphabet.Length)];
-
-        
+                password[i] = dynamicAlphabet[random.Next(0, dynamicAlphabet.Length)];
             }
             string assembledPW = new string(password);
             return assembledPW;
-        
         }
     }
 }

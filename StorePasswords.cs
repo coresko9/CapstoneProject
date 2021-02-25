@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.IO;
+﻿using System.IO;
+using System.Windows;
 
 namespace LoginScreen0
 {
@@ -11,8 +11,6 @@ namespace LoginScreen0
         private static string _User;
         private static string _StoragePath = _StorageString;
 
-
-
         public StorePasswords(string user)
         {
             _User = user;
@@ -20,53 +18,34 @@ namespace LoginScreen0
         }
         public StorePasswords(string websiteName, string userName, string passWord)
         {
-
             StoreUserCredentials storeUser = new StoreUserCredentials();
             this._WebsiteName = websiteName;
             this._Website_UserName = userName;
-            this._Website_Password = passWord;                                    
+            this._Website_Password = passWord;
             MessageBox.Show(@$"storing to : {_StoragePath}");
-        }
-        public string User
-        {
-            get
-            {
-                return _User;
-            }
-            set
-            {
-                _User = value;
-            }
-        }
-        public string StoragePath
-        {
-            get
-            {
-                return _StoragePath;
-            }
-            set
-            {
-               _StoragePath = value;
-            }
         }
         public void Store()
         {
-            StreamWriter registUser = new StreamWriter(_StoragePath,true);
+            StreamWriter registUser = new StreamWriter(_StoragePath, true);
 
-
-            if (File.Exists(_StoragePath))
+            if (!string.IsNullOrWhiteSpace(this._WebsiteName) || !string.IsNullOrWhiteSpace(this._Website_Password) || !string.IsNullOrWhiteSpace(this._Website_UserName))
             {
-                MessageBox.Show($"Saving to: {_StoragePath}");                          
-                registUser.WriteLine($"Website: {_WebsiteName}, User name: {_Website_UserName}, Password: {_Website_Password}");
-                MessageBox.Show("Credentials Saved!");
-
-                registUser.Close();
+                if (File.Exists(_StoragePath))
+                {
+                    MessageBox.Show($"Saving to: {_StoragePath}");
+                    registUser.WriteLine($"Website: {_WebsiteName}, User name: {_Website_UserName}, Password: {_Website_Password}");
+                    MessageBox.Show("Credentials Saved!");
+                    registUser.Close();
+                }
+                else
+                {
+                    MessageBox.Show("error");
+                    registUser.Close();
+                }
             }
             else
             {
-                MessageBox.Show("error");
-
-                registUser.Close();
+                MessageBox.Show("Fields Cannot Be Empty");
             }
         }
 

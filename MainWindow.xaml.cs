@@ -35,26 +35,14 @@ namespace LoginScreen0
         }
         private void Btn_Register_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxPassword.Text) || !string.IsNullOrWhiteSpace(BoxUser_Name.Text))
-            {
-                newUser.Password = BoxPassword.Text;
-                newUser.Store(BoxUser_Name.Text);
+                newUser.Store(BoxUser_Name.Text, BoxPassword.Text);
                 BoxPassword.Clear();
                 BoxUser_Name.Clear();
-            }
-            else
-            {
-                MessageBox.Show("Cannot Be Empty");
-            }
         }
 
 
         private void Btn_Login_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(BoxPassword.Text) || !string.IsNullOrWhiteSpace(BoxUser_Name.Text))
-            {
-
-
                 string checkPath = @$"{defaultDirectory.StorageString}\{BoxUser_Name.Text}.txt";
                 if (File.Exists(checkPath))
                 {
@@ -62,11 +50,9 @@ namespace LoginScreen0
                     string usPw = BoxUser_Name.Text + BoxPassword.Text;
                     if (lv.isLogin(usPw))
                     {
-
                         PasswordsScreen ps = new PasswordsScreen(checkPath, BoxUser_Name.Text, BoxPassword.Text);
                         ps.Show();
                         Close();
-
                     }
                     else
                     {
@@ -77,11 +63,6 @@ namespace LoginScreen0
                 {
                     MessageBox.Show($"User name {BoxUser_Name.Text} not found.\n Note:\tCase Sensitive ");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Cannot Be Empty");
-            }
         }
     }
 }
