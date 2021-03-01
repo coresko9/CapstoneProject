@@ -67,14 +67,10 @@
     </Window.Effect>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="53*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="150,181,0,0" VerticalAlignment="Top" Width="91" Height="36" FontFamily="Copperplate Gothic Bold" FontSize="14" Foreground="#FFF1F1F1">
-            <Label.BindingGroup>
-                <BindingGroup/>
-            </Label.BindingGroup>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="66,165,0,0" VerticalAlignment="Top" Width="98" Height="39" FontFamily="Copperplate Gothic Bold" FontSize="14" Foreground="#FFFEF4FA" Opacity="0.7">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
         </Label>
         <Label Content="User name" HorizontalAlignment="Left" Margin="66,122,0,0" VerticalAlignment="Top" Width="98" Height="39" FontFamily="Copperplate Gothic Bold" FontSize="14" Foreground="#FFFEF4FA" Opacity="0.7">
             <Label.Effect>
