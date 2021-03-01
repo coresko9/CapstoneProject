@@ -22,7 +22,7 @@ namespace LoginScreen0
             this._WebsiteName = websiteName;
             this._Website_UserName = userName;
             this._Website_Password = passWord;
-            MessageBox.Show(@$"storing to : {_StoragePath}");
+            
         }
         public void Store()
         {

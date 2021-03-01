@@ -68,10 +68,7 @@
 
     <Grid RenderTransformOrigin="0.609,0.688">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="53*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+       
         <Label Content="Password" HorizontalAlignment="Left"  Margin="66,165,0,0" VerticalAlignment="Top" Width="98" Height="39" FontFamily="Copperplate Gothic Bold" FontSize="14" Foreground="#FFFEF4FA" Opacity="0.7">
             <Label.Effect>
                 <DropShadowEffect/>
@@ -85,12 +82,13 @@
                 <DropShadowEffect/>
             </Label.Effect>
         </Label>
-        <TextBox x:Name="BoxUser_Name"  Text ="{Binding Path= UserName, Mode=OneWay}" HorizontalAlignment="Left" TextAlignment="Justify" FontSize="15" Margin="165,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="29" Background="#FFCED4FF"/>
-        <TextBox x:Name="BoxPassword" Text ="{Binding Path= Password, Mode=OneWay}" HorizontalAlignment="Left" TextAlignment="Justify" FontSize="15" Margin="165,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="198" Height="29" Background="#FFCED4FF" >
+        <TextBox x:Name="BoxUser_Name"  Text ="{Binding Path= UserName, Mode=OneWay}" HorizontalAlignment="Left" TextAlignment="Justify" FontSize="15" Margin="165,125,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="197" Height="29" Background="#FFCED4FF" MaxLength="21" MaxLines="1"/>
+        <TextBox x:Name="BoxPassword" Text ="{Binding Path= Password, Mode=OneWay}" HorizontalAlignment="Left" TextAlignment="Justify" FontSize="15" Margin="165,168,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="198" Height="29" Background="#FFCED4FF" MaxLines="1" >
             <TextBox.Effect>
                 <BlurEffect Radius="8"/>
             </TextBox.Effect>
         </TextBox>
+        
 
         <Button Template="{DynamicResource ButtonTemplate}" ClickMode="Release" Name="Btn_Login" Click="Btn_Login_Click" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="313,212,0,0" Height="32" Width="50" FontFamily="Copperplate Gothic Bold" BorderThickness="2,1,1,1.5" BorderBrush="#FF4751B6" RenderTransformOrigin="0.5,0.5" Opacity="0.8">
             <Button.Background>

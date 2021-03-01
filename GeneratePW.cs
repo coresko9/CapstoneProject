@@ -70,7 +70,7 @@ namespace LoginScreen0
             {
                 dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}{_alpha_UpperCase}{_alpha_Numerics}";
             }
-            else if (_IncludeCaps && _IncludeSymbs )
+            else if (_IncludeCaps && _IncludeSymbs)
             {
                 dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}{_alpha_UpperCase}";
             }
@@ -86,11 +86,11 @@ namespace LoginScreen0
             {
                 dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Numerics}";
             }
-            else if (_IncludeCaps )
+            else if (_IncludeCaps)
             {
                 dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_UpperCase}";
             }
-            else if (_IncludeSymbs )
+            else if (_IncludeSymbs)
             {
                 dynamicAlphabet = $@"{_Passwordalphabet}{_alpha_Symbols}";
             }

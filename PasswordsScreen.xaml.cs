@@ -46,5 +46,10 @@ namespace LoginScreen0
             pW.IncludeNums =  (bool)CheckBox_Nums.IsChecked;
             pW.IncludeSymbs = (bool)CheckBox_Sym.IsChecked;
         }
+
+        private void CopyTo_Click(object sender, RoutedEventArgs e)
+        {
+            EnterPasswordBox.Text = GenPasswordBox.Text;
+        }
     }
 }
