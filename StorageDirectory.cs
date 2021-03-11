@@ -7,7 +7,7 @@ namespace LoginScreen0
     {
         protected static string _FolderName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString();
         protected static string _StorageString = Path.Combine(_FolderName,"ProjectInfo");
-        public string StorageString
+        public static string StorageString
         {
             get
             {

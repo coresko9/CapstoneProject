@@ -20,13 +20,13 @@ namespace LoginScreen0
     public partial class MainWindow : Window
     {
 
-        StorageDirectory defaultDirectory = new StorageDirectory();
+       
         StoreUserCredentials newUser = new StoreUserCredentials();
 
         public MainWindow()
         {       
             InitializeComponent();  
-            if (!Directory.Exists(defaultDirectory.StorageString))
+            if (!Directory.Exists(StorageDirectory.StorageString))
             {
                 StorageDirectory.CreateDirectory();
             }
@@ -43,14 +43,14 @@ namespace LoginScreen0
 
         private void Btn_Login_Click(object sender, RoutedEventArgs e)
         {
-                string checkPath = @$"{defaultDirectory.StorageString}\{BoxUser_Name.Text}.txt";
+                string checkPath = @$"{StorageDirectory.StorageString}\{BoxUser_Name.Text}.txt";
                 if (File.Exists(checkPath))
                 {
                     LoginVerification lv = new LoginVerification(checkPath);
                     string usPw = BoxUser_Name.Text + BoxPassword.Text;
                     if (lv.isLogin(usPw))
                     {
-                        PasswordsScreen ps = new PasswordsScreen(checkPath, BoxUser_Name.Text, BoxPassword.Text);
+                        PasswordsScreen ps = new PasswordsScreen(BoxUser_Name.Text);
                         ps.Show();
                         Close();
                     }

@@ -10,30 +10,46 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace LoginScreen0
 {
     /// <summary>
     /// Interaction logic for PasswordsScreen.xaml
     /// </summary>
-    
+
     public partial class PasswordsScreen : Window
     {
-        protected static string _UserName;
-        private static string _Password;
+       
         GeneratePW pW = new GeneratePW();
-        public PasswordsScreen(string filePath, string un, string pw)
+        StorePasswords sP = new StorePasswords();
+        private static string _UserName;
+        private static string _file_StoragePath;
+        public static string UserName
+        {
+            get
+            {
+                return _UserName;
+            }
+        }
+        public static string File_StoragePath
+        {
+            get
+            {
+                return _file_StoragePath;
+            }
+        }
+        public PasswordsScreen(string un)
         {
             InitializeComponent();
             _UserName = un;
-            _Password = pw;
-            StorePasswords sP = new StorePasswords(un);
+            _file_StoragePath = @$"{StorageDirectory.StorageString}\{un}.txt";
+            ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
         }
+      
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            StorePasswords store = new StorePasswords(EnterWebsiteBox.Text, EnterUserNameBox.Text, EnterPasswordBox.Text);
-            store.Store();
+            sP.Store(EnterWebsiteBox.Text.Trim(), EnterUserNameBox.Text.Trim(), EnterPasswordBox.Text.Trim());
         }
-
         private void Gen_NewPassword_Click(object sender, RoutedEventArgs e)
         {
             pW.Length = byte.Parse(SliderNum.Text);
@@ -46,10 +62,27 @@ namespace LoginScreen0
             pW.IncludeNums =  (bool)CheckBox_Nums.IsChecked;
             pW.IncludeSymbs = (bool)CheckBox_Sym.IsChecked;
         }
-
         private void CopyTo_Click(object sender, RoutedEventArgs e)
         {
             EnterPasswordBox.Text = GenPasswordBox.Text;
+        }
+        private void ComboBox_Credentials_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = ComboBox_Credentials.SelectedIndex;
+            Retrieve_Password.Text = RetrieveCredentials.PasswordList[index];
+            Retrieve_UserName.Text = RetrieveCredentials.UserNameList[index];
+
+        }
+
+        private void ComboBox_Credentials_DropDownClosed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button_Generate_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
+
         }
     }
 }
