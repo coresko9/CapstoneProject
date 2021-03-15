@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -12,35 +13,26 @@ namespace LoginScreen0
         {
             _CheckPath = path;
         }
-        public bool isLogin(string usPw)
+        public bool isLogin(string username, string password)
         {
-            usPw = CreateSHA512(usPw);
-            string textInfo = File.ReadAllText(_CheckPath);
-            if (textInfo.Contains(usPw))
+            StoreUserCredentials checkAccount = new StoreUserCredentials(username,password, true);
+            using (StreamReader stream = new StreamReader(_CheckPath))
             {
-                MessageBox.Show("Login Successful");
-                return true;
-            }
 
-            return false;
-
-        }
-        public string CreateSHA512(string usPw)
-        {
-            using (SHA512 sHA512 = SHA512.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(usPw);
-                byte[] hashBytes = sHA512.ComputeHash(inputBytes);
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
+                string fileContent = stream.ReadToEnd();
+                stream.Close();
+                if (fileContent.Contains(checkAccount.Hash))
                 {
-                    sb.Append(hashBytes[i].ToString("X2"));
+                    MessageBox.Show("Login Successful");
+                    UserProperties.Hash = checkAccount.Hash;
+                    UserProperties.UserStorageFilePath = this._CheckPath;
+                    UserProperties.Key = EncryptDecrypt.CreateKey(UserProperties.Hash);
+                    return true;
                 }
+                return false;
 
-                return sb.ToString();
             }
+            
         }
-
     }
 }

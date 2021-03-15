@@ -22,27 +22,12 @@ namespace LoginScreen0
        
         GeneratePW pW = new GeneratePW();
         StorePasswords sP = new StorePasswords();
-        private static string _UserName;
-        private static string _file_StoragePath;
-        public static string UserName
-        {
-            get
-            {
-                return _UserName;
-            }
-        }
-        public static string File_StoragePath
-        {
-            get
-            {
-                return _file_StoragePath;
-            }
-        }
+
         public PasswordsScreen(string un)
         {
             InitializeComponent();
-            _UserName = un;
-            _file_StoragePath = @$"{StorageDirectory.StorageString}\{un}.txt";
+            
+           
             ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
         }
       
@@ -78,7 +63,6 @@ namespace LoginScreen0
         {
 
         }
-
         private void Button_Generate_Click(object sender, RoutedEventArgs e)
         {
             ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
