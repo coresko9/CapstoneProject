@@ -54,19 +54,51 @@ namespace LoginScreen0
         private void ComboBox_Credentials_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = ComboBox_Credentials.SelectedIndex;
-            Retrieve_Password.Text = RetrieveCredentials.PasswordList[index];
-            Retrieve_UserName.Text = RetrieveCredentials.UserNameList[index];
+            ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
+            
 
         }
 
         private void ComboBox_Credentials_DropDownClosed(object sender, EventArgs e)
         {
+            if (ComboBox_Credentials.SelectedIndex > 0)
+            {
+                int index = ComboBox_Credentials.SelectedIndex;
 
+                ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
+                Retrieve_Password.Text = RetrieveCredentials.PasswordList[index].Trim();
+                Retrieve_UserName.Text = RetrieveCredentials.UserNameList[index].Trim();
+            }
         }
         private void Button_Generate_Click(object sender, RoutedEventArgs e)
         {
             ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
-
+        }
+        private void Button_DeleteCreds_Click(object sender, RoutedEventArgs e)
+        {
+           
+            int index = ComboBox_Credentials.SelectedIndex;
+            if (index <0)
+            {
+                MessageBox.Show("Nothing To Delete");
+            }
+            else
+            {
+                RetrieveCredentials rem = new RetrieveCredentials();
+                rem.RemoveAtIndex(index);
+                ComboBox_Credentials.ItemsSource = RetrieveCredentials.WebsiteList;
+                if (RetrieveCredentials.WebsiteList.Count != 0)
+                {
+                    ComboBox_Credentials.SelectedIndex = 0;
+                    Retrieve_Password.Text = RetrieveCredentials.PasswordList[0].Trim();
+                    Retrieve_UserName.Text = RetrieveCredentials.UserNameList[0].Trim();
+                }
+                else
+                {
+                    Retrieve_Password.Text = "";
+                    Retrieve_UserName.Text = "";
+                }
+            }
         }
     }
 }
